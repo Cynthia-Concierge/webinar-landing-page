@@ -7,10 +7,16 @@
 
   if (!modal || !form) return;
 
+  var savedScrollY = 0;
+
   function openModal() {
+    savedScrollY = window.scrollY;
     modal.classList.add('is-open');
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.width = '100%';
+    document.body.style.top = '-' + savedScrollY + 'px';
     const firstInput = form.querySelector('input');
     if (firstInput) setTimeout(function () { firstInput.focus(); }, 100);
   }
@@ -19,6 +25,10 @@
     modal.classList.remove('is-open');
     modal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.width = '';
+    document.body.style.top = '';
+    window.scrollTo(0, savedScrollY);
   }
 
   document.querySelectorAll('[data-open-modal]').forEach(function (el) {
